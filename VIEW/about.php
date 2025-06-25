@@ -179,13 +179,13 @@
                 <h1>Cardápio Digital</h1>
             </div>
             <div class="nav-links">
-                <a href="index.html">Início</a>
-                <a href="menu.html">Cardápio</a>
-                <a href="about.html" class="active">Sobre</a>
-                <a href="contact.html">Contato</a>
+                <a href="index.php">Início</a>
+                <a href="menu.php">Cardápio</a>
+                <a href="about.php" class="active">Sobre</a>
+                <a href="contact.php">Contato</a>
             </div>
             <div class="cart-icon">
-                <a href="cart.html">
+                <a href="cart.php">
                     <i class="fas fa-shopping-cart"></i>
                     <span class="cart-count">0</span>
                 </a>

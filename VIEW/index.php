@@ -14,13 +14,13 @@
                 <h1>Cardápio Digital</h1>
             </div>
             <div class="nav-links">
-                <a href="index.html" class="active">Início</a>
-                <a href="menu.html">Cardápio</a>
-                <a href="about.html">Sobre</a>
-                <a href="contact.html">Contato</a>
+                <a href="index.php" class="active">Início</a>
+                <a href="menu.php">Cardápio</a>
+                <a href="about.php">Sobre</a>
+                <a href="contact.php">Contato</a>
             </div>
             <div class="cart-icon">
-                <a href="cart.html">
+                <a href="cart.php">
                     <i class="fas fa-shopping-cart"></i>
                     <span class="cart-count">0</span>
                 </a>
@@ -32,7 +32,7 @@
         <div class="hero-content">
             <h1>Bem-vindo ao Cardápio Digital</h1>
             <p>Descubra os melhores sabores da cidade com apenas um clique</p>
-            <a href="menu.html" class="btn">Ver Cardápio</a>
+            <a href="menu.php" class="btn">Ver Cardápio</a>
         </div>
     </section>
 
@@ -160,7 +160,7 @@
         document.querySelectorAll('.category-card').forEach(card => {
             card.addEventListener('click', () => {
                 const category = card.querySelector('.category-overlay').textContent;
-                window.location.href = `menu.html?category=${encodeURIComponent(category)}`;
+                window.location.href = `menu.php?category=${encodeURIComponent(category)}`;
             });
         });
     </script>

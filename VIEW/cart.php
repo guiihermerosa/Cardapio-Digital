@@ -182,13 +182,13 @@
                 <h1>Cardápio Digital</h1>
             </div>
             <div class="nav-links">
-                <a href="index.html">Início</a>
-                <a href="menu.html">Cardápio</a>
-                <a href="about.html">Sobre</a>
-                <a href="contact.html">Contato</a>
+                <a href="index.php">Início</a>
+                <a href="menu.php">Cardápio</a>
+                <a href="about.php">Sobre</a>
+                <a href="contact.php">Contato</a>
             </div>
             <div class="cart-icon">
-                <a href="cart.html" class="active">
+                <a href="cart.php" class="active">
                     <i class="fas fa-shopping-cart"></i>
                     <span class="cart-count">2</span>
                 </a>
@@ -199,50 +199,13 @@
     <main class="cart-container">
         <div class="cart-items">
             <h2>Seu Carrinho</h2>
-            <!-- Item 1 -->
-            <div class="cart-item">
-                <img src="assets/images/menu-item-1.jpg" alt="Salada Caesar">
-                <div class="cart-item-details">
-                    <div>
-                        <h3 class="cart-item-title">Salada Caesar</h3>
-                        <p class="cart-item-price">R$ 25,90</p>
-                    </div>
-                    <div class="cart-item-quantity">
-                        <button class="quantity-btn minus">-</button>
-                        <span>1</span>
-                        <button class="quantity-btn plus">+</button>
-                    </div>
-                </div>
-                <button class="cart-item-remove">
-                    <i class="fas fa-trash"></i>
-                </button>
-            </div>
-
-            <!-- Item 2 -->
-            <div class="cart-item">
-                <img src="assets/images/menu-item-2.jpg" alt="Filé ao Molho Madeira">
-                <div class="cart-item-details">
-                    <div>
-                        <h3 class="cart-item-title">Filé ao Molho Madeira</h3>
-                        <p class="cart-item-price">R$ 45,90</p>
-                    </div>
-                    <div class="cart-item-quantity">
-                        <button class="quantity-btn minus">-</button>
-                        <span>1</span>
-                        <button class="quantity-btn plus">+</button>
-                    </div>
-                </div>
-                <button class="cart-item-remove">
-                    <i class="fas fa-trash"></i>
-                </button>
-            </div>
+            <div id="cartItemsContainer"></div>
         </div>
-
         <div class="cart-summary">
             <h2 class="summary-title">Resumo do Pedido</h2>
             <div class="summary-row">
                 <span>Subtotal</span>
-                <span>R$ 71,80</span>
+                <span class="Subtotal"></span>
             </div>
             <div class="summary-row">
                 <span>Taxa de Entrega</span>
@@ -250,9 +213,8 @@
             </div>
             <div class="summary-row summary-total">
                 <span>Total</span>
-                <span>R$ 76,80</span>
+                <span class="value-total"></span>
             </div>
-
             <form class="checkout-form">
                 <div class="form-group">
                     <label for="name">Nome Completo</label>
@@ -303,51 +265,130 @@
 
     <script src="assets/js/main.js"></script>
     <script>
-        // Controle de quantidade
-        const quantityControls = document.querySelectorAll('.cart-item-quantity');
-
-        quantityControls.forEach(control => {
-            const minusBtn = control.querySelector('.minus');
-            const plusBtn = control.querySelector('.plus');
-            const quantitySpan = control.querySelector('span');
-
-            minusBtn.addEventListener('click', () => {
-                let quantity = parseInt(quantitySpan.textContent);
-                if (quantity > 1) {
-                    quantitySpan.textContent = quantity - 1;
-                    updateCart();
+    // --- Carrinho dinâmico ---
+    function getCart() {
+        return JSON.parse(localStorage.getItem('cart') || '[]');
+    }
+    function saveCart(cart) {
+        localStorage.setItem('cart', JSON.stringify(cart));
+        if (window.cart) window.cart.updateCartCount();
+    }
+    function formatPrice(price) {
+        return new Intl.NumberFormat('pt-BR', { style: 'currency', currency: 'BRL' }).format(price);
+    }
+    function renderCart() {
+        const cart = getCart();
+        const container = document.getElementById('cartItemsContainer');
+        container.innerHTML = '';
+        if (!cart.length) {
+            container.innerHTML = `<div class='empty-cart'><i class='fas fa-shopping-cart'></i><p>Seu carrinho está vazio.</p></div>`;
+            document.querySelector('.Subtotal').textContent = formatPrice(0);
+            document.querySelector('.value-total').textContent = formatPrice(5);
+            return;
+        }
+        cart.forEach((item, idx) => {
+            const div = document.createElement('div');
+            div.className = 'cart-item';
+            div.innerHTML = `
+                <img src="${item.image}" alt="${item.name}">
+                <div class="cart-item-details">
+                    <div>
+                        <h3 class="cart-item-title">${item.name}</h3>
+                        <p class="cart-item-price">${formatPrice(item.price)}</p>
+                    </div>
+                    <div class="cart-item-quantity">
+                        <button class="quantity-btn minus">-</button>
+                        <span>${item.quantity}</span>
+                        <button class="quantity-btn plus">+</button>
+                    </div>
+                </div>
+                <button class="cart-item-remove"><i class="fas fa-trash"></i></button>
+            `;
+            // Eventos de quantidade
+            div.querySelector('.quantity-btn.minus').addEventListener('click', () => {
+                if (item.quantity > 1) {
+                    item.quantity--;
+                    saveCart(cart);
+                    renderCart();
                 }
             });
-
-            plusBtn.addEventListener('click', () => {
-                let quantity = parseInt(quantitySpan.textContent);
-                quantitySpan.textContent = quantity + 1;
-                updateCart();
+            div.querySelector('.quantity-btn.plus').addEventListener('click', () => {
+                item.quantity++;
+                saveCart(cart);
+                renderCart();
             });
-        });
-
-        // Remover item
-        const removeButtons = document.querySelectorAll('.cart-item-remove');
-        removeButtons.forEach(button => {
-            button.addEventListener('click', () => {
-                button.closest('.cart-item').remove();
-                updateCart();
+            // Evento de remover
+            div.querySelector('.cart-item-remove').addEventListener('click', () => {
+                cart.splice(idx, 1);
+                saveCart(cart);
+                renderCart();
             });
+            container.appendChild(div);
         });
-
-        // Atualizar carrinho
-        function updateCart() {
-            // Aqui você pode adicionar a lógica para atualizar o total
-            // e outros cálculos necessários
-        }
-
-        // Formulário de checkout
+        updateSummary();
+    }
+    function updateSummary() {
+        const cart = getCart();
+        let subtotal = 0;
+        cart.forEach(item => {
+            subtotal += item.price * item.quantity;
+        });
+        const deliveryFee = 5.00;
+        const total = subtotal + deliveryFee;
+        document.querySelector('.Subtotal').textContent = formatPrice(subtotal);
+        document.querySelector('.value-total').textContent = formatPrice(total);
+    }
+    document.addEventListener('DOMContentLoaded', () => {
+        renderCart();
+        // Checkout
         const checkoutForm = document.querySelector('.checkout-form');
-        checkoutForm.addEventListener('submit', (e) => {
-            e.preventDefault();
-            // Aqui você pode adicionar a lógica para processar o pedido
-            alert('Pedido realizado com sucesso!');
-        });
+        if (checkoutForm) {
+            checkoutForm.addEventListener('submit', async (e) => {
+                e.preventDefault();
+                
+                const cart = getCart();
+                if (cart.length === 0) {
+                    alert('Carrinho vazio!');
+                    return;
+                }
+
+                const formData = {
+                    name: document.getElementById('name').value,
+                    email: document.getElementById('email').value,
+                    phone: document.getElementById('phone').value,
+                    address: document.getElementById('address').value,
+                    total: parseFloat(document.querySelector('.value-total').textContent.replace('R$', '').replace(',', '.').trim()),
+                    items: cart
+                };
+
+                try {
+                    const response = await fetch('../DAL/pedidos.php', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json'
+                        },
+                        body: JSON.stringify(formData)
+                    });
+
+                    const result = await response.json();
+                    
+                    if (result.success) {
+                        alert('Pedido realizado com sucesso! Número do pedido: ' + result.order_id);
+                        localStorage.removeItem('cart');
+                        if (window.cart) window.cart.clearCart();
+                        renderCart();
+                        checkoutForm.reset();
+                    } else {
+                        alert('Erro ao realizar pedido: ' + (result.error || 'Erro desconhecido'));
+                    }
+                } catch (error) {
+                    console.error('Erro:', error);
+                    alert('Erro ao conectar com o servidor. Tente novamente.');
+                }
+            });
+        }
+    });
+    // --- Fim carrinho dinâmico ---
     </script>
 </body>
 </html> 
