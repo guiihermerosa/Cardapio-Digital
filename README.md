@@ -1,147 +1,143 @@
-# Cardápio Digital
 
-Um sistema completo de cardápio digital com frontend moderno e backend em PHP, permitindo que restaurantes gerenciem seus produtos e pedidos de forma eficiente.
+# 🍽️ Cardápio Digital
+
+O **Cardápio Digital** é uma aplicação completa desenvolvida com foco na automação e digitalização de pedidos em estabelecimentos gastronômicos. A solução oferece uma interface moderna e intuitiva para clientes realizarem pedidos online e um painel administrativo eficiente para o gerenciamento interno de produtos, categorias e pedidos. O projeto integra frontend responsivo, backend em PHP e banco de dados MySQL, promovendo uma experiência fluida, prática e escalável.
+
+---
 
 ## 🚀 Funcionalidades
 
-### Frontend
-- Página inicial com destaques e categorias
-- Cardápio digital com filtros por categoria
-- Carrinho de compras
-- Sistema de pedidos online
-- Página "Sobre" com informações do restaurante
-- Página de contato com formulário e mapa
+### 👨‍🍳 Frontend
+- Página inicial com destaques e categorias personalizadas
+- Cardápio digital com filtros dinâmicos por categoria
+- Carrinho de compras persistente com `localStorage`
+- Finalização de pedidos com interface amigável
+- Página "Sobre nós" com informações do restaurante
+- Página de contato com formulário integrado e mapa interativo
 
-### Backend
-- Painel administrativo para gerenciamento de produtos
-- Sistema de gerenciamento de pedidos
-- API RESTful para integração com o frontend
-- Banco de dados MySQL para armazenamento de dados
+### 🛠️ Backend (Painel Administrativo)
+- Cadastro, edição e remoção de produtos
+- Visualização e gerenciamento de pedidos em tempo real
+- Atualização do status dos pedidos
+- Arquitetura baseada em APIs RESTful
+- Sistema seguro com tratamento de dados e proteção contra injeção SQL
 
-## 🛠️ Tecnologias Utilizadas
+---
 
-- HTML5
-- CSS3
-- JavaScript (ES6+)
-- PHP 7.4+
-- MySQL
-- Font Awesome (ícones)
-- Google Maps API (opcional)
+## ⚙️ Tecnologias Utilizadas
 
-## 📋 Pré-requisitos
+| Camada      | Tecnologias                           |
+|-------------|----------------------------------------|
+| Frontend    | HTML5, CSS3, JavaScript (ES6+), Font Awesome |
+| Backend     | PHP 7.4+, API RESTful                  |
+| Banco de Dados | MySQL 5.7+                          |
+| APIs externas | Google Maps API (opcional)           |
 
-- Servidor web (Apache/Nginx)
+---
+
+## 📦 Pré-requisitos
+
+- Servidor Web (Apache ou Nginx)
 - PHP 7.4 ou superior
 - MySQL 5.7 ou superior
-- Extensões PHP necessárias:
-  - PDO
-  - PDO_MySQL
-  - JSON
+- Extensões PHP habilitadas:
+  - `PDO`
+  - `PDO_MySQL`
+  - `JSON`
 
-## 🔧 Instalação
+---
 
-1. Clone o repositório:
-```bash
-git clone https://github.com/seu-usuario/cardapio-digital.git
-```
+## 🔧 Instalação e Configuração
 
-2. Configure o banco de dados:
+1. **Clone o repositório:**
+   ```bash
+   git clone https://github.com/guiihermerosa/Cardapio-Digital.git
+   ```
+
+2. **Configuração do Banco de Dados:**
    - Crie um banco de dados MySQL
-   - Execute o script `backend/database.sql`
-   - Configure as credenciais em `backend/config/Database.php`
+   - Execute o script `cardapio.sql` para criar as tabelas
+   - Atualize o arquivo de conexão `backend/config/Database.php` com suas credenciais
 
-3. Configure o servidor web:
-   - Aponte o DocumentRoot para a pasta do projeto
-   - Certifique-se de que o mod_rewrite está habilitado (Apache)
-   - Configure as permissões corretas nas pastas
+3. **Servidor Web:**
+   - Aponte o `DocumentRoot` para a pasta do projeto
+   - Certifique-se de que o módulo `mod_rewrite` está habilitado (em caso de Apache)
+   - Ajuste permissões de pastas e arquivos conforme necessário
 
-4. Ajuste as configurações:
-   - Edite as informações do restaurante no frontend
-   - Configure as credenciais do banco de dados
-   - Ajuste as URLs das imagens conforme necessário
+4. **Personalização:**
+   - Atualize as informações institucionais nas páginas do frontend
+   - Configure corretamente as URLs de imagens e recursos
 
-## 📁 Estrutura do Projeto
+---
 
-```
-cardapio-digital/
-├── frontend/
-│   ├── assets/
-│   │   ├── css/
-│   │   ├── js/
-│   │   └── images/
-│   ├── index.html
-│   ├── menu.html
-│   ├── cart.html
-│   ├── about.html
-│   └── contact.html
-│
-└── backend/
-    ├── api/
-    │   └── create_order.php
-    ├── config/
-    │   └── Database.php
-    ├── models/
-    │   ├── Product.php
-    │   └── Order.php
-    ├── admin/
-    │   ├── products.php
-    │   └── orders.php
-    └── database.sql
+## 🗂️ Estrutura do Projeto
+
+```plaintext
+Cardapio-Digital/
+├── DAL/                         # Lógica de acesso a dados
+├── VIEW/                        # Interface de usuário e frontend
+├── cardapio.sql                 # Script do banco de dados
+├── README.md                    # Documentação do projeto
+└── .gitignore / .gitattributes  # Arquivos de controle de versão
 ```
 
-## 💻 Uso
+---
 
-### Frontend
-1. Acesse a página inicial (`index.html`)
-2. Navegue pelo cardápio
+## 💻 Como Usar
+
+### Acesso do Cliente (Usuário final)
+1. Acesse `index.html` no navegador
+2. Navegue pelas categorias e produtos
 3. Adicione itens ao carrinho
-4. Faça o pedido
+4. Finalize o pedido via formulário de envio
 
-### Backend (Admin)
-1. Acesse o painel de produtos (`backend/admin/products.php`)
-   - Adicione novos produtos
-   - Edite produtos existentes
-   - Remova produtos
+### Acesso do Administrador
+- Acesse: `backend/admin/products.php`
+  - Gerencie produtos (criar, editar, excluir)
+- Acesse: `backend/admin/orders.php`
+  - Visualize e atualize pedidos em tempo real
 
-2. Acesse o painel de pedidos (`backend/admin/orders.php`)
-   - Visualize pedidos
-   - Atualize status dos pedidos
-   - Gerencie entregas
+---
 
-## 🔒 Segurança
+## 🔐 Segurança
 
-- Todas as entradas de dados são sanitizadas
-- Proteção contra SQL Injection usando PDO
-- Validação de dados no frontend e backend
-- CORS configurado adequadamente
+- Validação de dados no lado cliente e servidor
+- Uso de `PDO` para proteção contra SQL Injection
+- CORS configurado corretamente
+- Sanitização de entradas de usuário
 
-## 🤝 Contribuindo
-
-1. Faça um Fork do projeto
-2. Crie uma Branch para sua Feature (`git checkout -b feature/AmazingFeature`)
-3. Commit suas mudanças (`git commit -m 'Add some AmazingFeature'`)
-4. Push para a Branch (`git push origin feature/AmazingFeature`)
-5. Abra um Pull Request
-
-## 📝 Licença
-
-Este projeto está sob a licença MIT. Veja o arquivo [LICENSE](LICENSE) para mais detalhes.
+---
 
 ## ✨ Recursos Adicionais
 
-- Design responsivo
-- Interface moderna e intuitiva
-- Sistema de carrinho com localStorage
-- Filtros de produtos por categoria
-- Gestão de pedidos em tempo real
-- Suporte a múltiplos produtos e categorias
+- Design responsivo compatível com dispositivos móveis
+- Interface moderna com ícones via Font Awesome
+- Integração com Google Maps na página de contato
+- Filtros inteligentes por categoria de produto
+- Sistema modular preparado para expansão (delivery, autenticação, etc.)
+
+---
+
+
+## 📝 Licença
+
+Este projeto está licenciado sob a [Licença MIT](LICENSE). Você é livre para usá-lo, modificá-lo e distribuí-lo com os devidos créditos.
+
+---
 
 ## 📞 Suporte
 
-Para suporte, envie um email para GRBTECNOLOGIA.CM@gmail.com ou abra uma issue no GitHub.
+Caso precise de suporte, entre em contato:
+
+- 📧 **Email:** GRBTECNOLOGIA.CM@gmail.com
+- 🐛 Ou abra uma [issue](https://github.com/guiihermerosa/Cardapio-Digital/issues)
+
+---
 
 ## 🙏 Agradecimentos
 
-- Font Awesome pelos ícones
-- Comunidade PHP
-- Todos os contribuidores do projeto 
+- [Font Awesome](https://fontawesome.com/) pelos ícones
+- Comunidade PHP por todo suporte e materiais
+- A todos os colaboradores que contribuíram com o projeto
+
+> Desenvolvido com dedicação por **Guilherme Rosa de Brito** e **Gustavo Oliveira**
